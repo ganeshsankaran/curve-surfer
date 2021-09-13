@@ -1,0 +1,72 @@
+<div class="mb-3">
+  <canvas id="avgGpaPerInstrChart"></canvas>
+</div>
+<script>
+  const avgGpaPerInstrData = {
+    labels: {{ avg_gpa_per_instr.labels | safe }},
+    datasets: [{
+      label: "Average GPA",
+      data: {{ avg_gpa_per_instr.data | safe }},
+      backgroundColor: "#0d6efd"
+    }]
+  };
+
+  const avgGpaPerInstrConfig = {
+    type: "bar",
+    data: avgGpaPerInstrData,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Average GPA per Instructor",
+          font: {
+            size: 24
+          }
+        },
+        tooltip: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            autoskip: false
+          },
+          title: {
+            display: true,
+            text: "Course"
+          }
+        },
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+
+  var avgGpaPerInstrCtx = document.getElementById("avgGpaPerInstrChart").getContext("2d");
+  var avgGpaPerInstrChart = new Chart(avgGpaPerInstrCtx, avgGpaPerInstrConfig);
+</script>
+<div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Instructor</th>
+        <th scope="col">Average GPA</th>
+        <th scope="col"># Students</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in avg_gpa_per_instr.table %}
+      <tr>
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 | floatformat:2 }}</td>
+        <td>{{ row.2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

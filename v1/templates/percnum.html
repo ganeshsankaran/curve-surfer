@@ -1,0 +1,72 @@
+<div class="mb-3">
+  <canvas id="avgGpaPerCnumChart"></canvas>
+</div>
+<script>
+  const avgGpaPerCnumData = {
+    labels: {{ avg_gpa_per_cnum.labels | safe }},
+    datasets: [{
+      label: "Average GPA",
+      data: {{ avg_gpa_per_cnum.data | safe }},
+      backgroundColor: "#0d6efd"
+    }]
+  };
+
+  const avgGpaPerCnumConfig = {
+    type: "bar",
+    data: avgGpaPerCnumData,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Average GPA per Course",
+          font: {
+            size: 24
+          }
+        },
+        tooltip: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            autoskip: false
+          },
+          title: {
+            display: true,
+            text: "Course"
+          }
+        },
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+
+  var avgGpaPerCnumCtx = document.getElementById("avgGpaPerCnumChart").getContext("2d");
+  var avgGpaPerCnumChart = new Chart(avgGpaPerCnumCtx, avgGpaPerCnumConfig);
+</script>
+<div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Course</th>
+        <th scope="col">Average GPA</th>
+        <th scope="col"># Students</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in avg_gpa_per_cnum.table %}
+      <tr>
+        <td>{{ form.cleaned_data.dept }} {{ row.0 }}</td>
+        <td>{{ row.1 | floatformat:2 }}</td>
+        <td>{{ row.2 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

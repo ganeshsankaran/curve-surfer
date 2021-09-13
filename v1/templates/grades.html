@@ -1,0 +1,93 @@
+<div class="mb-3">
+  <canvas id="letterGradeDistChart"></canvas>
+</div>
+<script>
+  const letterGradeDistData = {
+    labels: {{ letter_grade_dist.labels | safe }},
+    datasets: [{
+      label: "Count",
+      data: {{ letter_grade_dist.data | safe }},
+      backgroundColor: "#0d6efd"
+    }]
+  };
+
+  const letterGradeDistConfig = {
+    type: "bar",
+    data: letterGradeDistData,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Letter Grade Distribution",
+          font: {
+            size: 24
+          }
+        },
+        tooltip: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Letter Grade"
+          }
+        },
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+
+  var letterGradeDistCtx = document.getElementById("letterGradeDistChart").getContext("2d");
+  var letterGradeDistChart = new Chart(letterGradeDistCtx, letterGradeDistConfig);
+</script>
+<div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Statistic (GPA)</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td scope="row">n</th>
+        <td>{{ letter_grade_dist.stats.n }}</td>
+      </tr>
+      <tr>
+        <td scope="row">Average</th>
+        <td>{{ letter_grade_dist.stats.mean | floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td scope="row">Standard Deviation</th>
+        <td>{{ letter_grade_dist.stats.stdev | floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td scope="row">Minimum</th>
+        <td>{{ letter_grade_dist.stats.min }}</td>
+      </tr>
+      <tr>
+        <td scope="row">1<sup>st</sup> Quartile</th>
+        <td>{{ letter_grade_dist.stats.quantiles.0 }}</td>
+      </tr>
+      <tr>
+        <td scope="row">Median</th>
+        <td>{{ letter_grade_dist.stats.median }}</td>
+      </tr>
+      <tr>
+        <td scope="row">3<sup>nd</sup> Quartile</th>
+        <td>{{ letter_grade_dist.stats.quantiles.2 }}</td>
+      </tr>
+      <tr>
+        <td scope="row">Maximum</th>
+        <td>{{ letter_grade_dist.stats.max }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

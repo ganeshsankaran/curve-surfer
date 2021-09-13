@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>Search</h3>
+<hr/>
+<form class="mt-3" method="POST" action="/">
+  {% csrf_token %}
+  {% if form.errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in form.errors.values %}
+    {{ error.as_text }}
+    {% endfor %}
+  </div>
+  {% endif %}
+  <label for="dept" class="form-label">Department</label>
+  <div class="alert alert-warning" role="alert">
+    As of now, only <strong>CMPSC</strong> is supported.
+  </div>
+  {{ form.dept }}
+  <label for="cnum" class="form-label">Course</label>
+  {{ form.cnum }}
+  <datalist id="cnum-list">
+    {% for cnum in cnums %}
+    <option value="{{ cnum }}">
+    {% endfor %}
+  </datalist>
+  <label for="instr" class="form-label">Instructor</label>
+  {{ form.instr }}
+  <datalist id="instr-list">
+    {% for instr in instrs %}
+    <option value="{{ instr }}">
+    {% endfor %}
+  </datalist>
+  <label for="qtr" class="form-label">Quarter</label>
+  {{ form.qtr }}
+  <datalist id="qtr-list">
+    {% for qtr in qtrs %}
+    <option value="{{ qtr }}">
+    {% endfor %}
+  </datalist>
+  <button type="submit" class="btn btn-primary w-100 mb-5">Submit</button>
+</form>
+
+{% if letter_grade_dist %}
+{% include 'results.html' %}
+{% endif %}
+
+{% endblock %}

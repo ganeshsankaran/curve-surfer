@@ -1,0 +1,39 @@
+<h3>Results</h3>
+<hr/>
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <a class="nav-link active" href="#grade-dist" data-toggle="tab" role="tab">Grades</a>
+  </li>
+  {% if avg_gpa_per_cnum %}
+  <li class="nav-item">
+    <a class="nav-link" href="#per-cnum" data-toggle="tab" role="tab">per Course</a>
+  </li>
+  {% endif %}
+  {% if avg_gpa_per_instr %}
+  <li class="nav-item">
+    <a class="nav-link" href="#per-instr" data-toggle="tab" role="tab">per Instructor</a>
+  </li>
+  {% endif %}
+  {% if avg_gpa_per_qtr %}
+  <li class="nav-item">
+    <a class="nav-link" href="#per-qtr" data-toggle="tab" role="tab">per Quarter</a>
+  </li>
+  {% endif %}
+</ul>
+<div class="alert alert-warning" role="alert">
+    As of now, only letter grades are supported.
+</div>
+<div class="tab-content">
+  <div class="tab-pane active" id="grade-dist" role="tabpanel">
+    {% include 'grades.html' %}
+  </div>
+  <div class="tab-pane" id="per-cnum" role="tabpanel">
+    {% include 'percnum.html' %}
+  </div>
+  <div class="tab-pane" id="per-instr" role="tabpanel">
+    {% include 'perinstr.html' %}
+  </div>
+  <div class="tab-pane" id="per-qtr" role="tabpanel">
+    {% include 'perqtr.html' %}
+  </div>
+</div>
